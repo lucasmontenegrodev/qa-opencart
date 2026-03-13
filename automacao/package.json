@@ -1,0 +1,13 @@
+{
+  "name": "qa-opencart-automacao",
+  "version": "1.0.0",
+  "description": "Testes E2E com Playwright e POM para OpenCart",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:report": "npx playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.0"
+  }
+}
