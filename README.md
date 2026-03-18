@@ -1,18 +1,19 @@
-# qa-opencart - Projeto Completo de QA
+# qa-opencart - Full QA Project
 
-Projeto completo de Quality Assurance aplicado ao OpenCart, um e-commerce open source. Cobre planejamento, testes manuais e automacao E2E com Playwright em JavaScript utilizando Page Object Model (POM).
+Complete Quality Assurance project applied to OpenCart, a real-world open source e-commerce platform. Covers test planning, manual testing with bug reports, and E2E automation with Playwright using Page Object Model (POM).
 
 ---
 
-## Ambiente de Testes
+## Target Application
 
-OpenCart rodando localmente via Docker.
+OpenCart running locally via Docker.
 
-### Requisitos
+### Requirements
 
-- Docker Desktop instalado: https://www.docker.com/products/docker-desktop
+- Docker Desktop: https://www.docker.com/products/docker-desktop
+- Node.js 18+: https://nodejs.org
 
-### Subir o ambiente
+### Setup
 
 ```bash
 docker run -d \
@@ -23,21 +24,20 @@ docker run -d \
   bitnami/opencart:latest
 ```
 
-Aguardar cerca de 2 minutos e acessar:
+Wait ~2 minutes, then access:
 
-- Loja: http://localhost:8080
+- Store: http://localhost:8080
 - Admin: http://localhost:8080/administration
-- Usuario admin: admin / admin1234
+- Credentials: admin / admin1234
 
 ---
 
-## Estrutura do Repositorio
+## Repository Structure
 
 ```
 qa-opencart/
 ├── README.md
 ├── TEST-PLAN.md
-│
 ├── testes-manuais/
 │   ├── TC-001-busca-produto.md
 │   ├── TC-002-pagina-produto.md
@@ -47,7 +47,6 @@ qa-opencart/
 │   └── bug-reports/
 │       ├── BUG-001-busca-vazia.md
 │       └── BUG-002-quantidade-carrinho.md
-│
 ├── automacao/
 │   ├── package.json
 │   ├── playwright.config.js
@@ -63,21 +62,20 @@ qa-opencart/
 │       ├── produto.spec.js
 │       ├── carrinho.spec.js
 │       └── cadastro.spec.js
-│
 └── evidencias/
     └── README.md
 ```
 
 ---
 
-## Resumo dos Testes Manuais
+## Manual Test Results
 
-| ID | Funcionalidade | Status | Bug |
+| ID | Feature | Status | Bug |
 |---|---|---|---|
-| [TC-001](./testes-manuais/TC-001-busca-produto.md) | Busca de Produto | FAIL | [BUG-001](./testes-manuais/bug-reports/BUG-001-busca-vazia.md) |
-| [TC-002](./testes-manuais/TC-002-pagina-produto.md) | Pagina do Produto | PASS | - |
-| [TC-003](./testes-manuais/TC-003-carrinho.md) | Carrinho | FAIL | [BUG-002](./testes-manuais/bug-reports/BUG-002-quantidade-carrinho.md) |
-| [TC-004](./testes-manuais/TC-004-cadastro.md) | Cadastro de Usuario | PASS | - |
+| [TC-001](./testes-manuais/TC-001-busca-produto.md) | Product Search | FAIL | [BUG-001](./testes-manuais/bug-reports/BUG-001-busca-vazia.md) |
+| [TC-002](./testes-manuais/TC-002-pagina-produto.md) | Product Page | PASS | - |
+| [TC-003](./testes-manuais/TC-003-carrinho.md) | Shopping Cart | FAIL | [BUG-002](./testes-manuais/bug-reports/BUG-002-quantidade-carrinho.md) |
+| [TC-004](./testes-manuais/TC-004-cadastro.md) | User Registration | PASS | - |
 | [TC-005](./testes-manuais/TC-005-login.md) | Login | PASS | - |
 
 | Total | PASS | FAIL | Bugs |
@@ -86,7 +84,9 @@ qa-opencart/
 
 ---
 
-## Automacao com Playwright + POM
+## Automation — Playwright + POM
+
+### Running the tests
 
 ```bash
 cd automacao
@@ -96,14 +96,47 @@ npx playwright test
 npx playwright show-report
 ```
 
+### Architecture — Page Object Model
+
+Each page has its own class under `automacao/pages/`, keeping test logic separate from page interaction logic.
+
+```
+pages/
+├── BasePage.js       - base class with shared methods
+├── HomePage.js       - search bar, cart icon
+├── SearchPage.js     - product list, result count
+├── ProductPage.js    - product name, price, add to cart
+├── CartPage.js       - items, quantity, remove, total
+└── RegisterPage.js   - registration form, submit, validation
+```
+
+### Test Coverage
+
+| Suite | Scenarios |
+|---|---|
+| busca.spec.js | Valid search, no results, case insensitive |
+| produto.spec.js | Name and price display, add to cart, custom quantity |
+| carrinho.spec.js | Item in cart, remove item |
+| cadastro.spec.js | Valid registration, empty fields validation |
+
 ---
 
-## Tecnologias
+## Tech Stack
 
-| Ferramenta | Uso |
+| Tool | Usage |
 |---|---|
-| Playwright | Automacao E2E |
-| JavaScript | Linguagem dos testes |
-| Page Object Model | Padrao de arquitetura da automacao |
-| Docker | Ambiente de testes isolado e reproduzivel |
-| Jira | Gestao de test cases e bugs |
+| Playwright | E2E test automation |
+| JavaScript | Test language |
+| Page Object Model | Automation architecture |
+| Docker | Isolated and reproducible test environment |
+| Jira | Test case and bug management |
+| Chrome DevTools | Evidence collection and network logs |
+
+---
+
+## Key Highlights
+
+- Real e-commerce platform running on Docker — fully reproducible environment
+- Page Object Model keeping page logic separate from test logic
+- Complete QA cycle: Test Plan → Manual Tests → Bug Reports → Automation
+- Bug reports include reproduction steps, evidence and technical hypothesis for the developer
